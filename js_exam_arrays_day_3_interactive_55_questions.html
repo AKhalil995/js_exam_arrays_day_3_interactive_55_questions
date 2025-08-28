@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JavaScript — Arrays (Day 3) Exam</title>
+  <style>
+    :root{--bg:#0b1220;--panel:#0f172a;--card:#111827;--ink:#e5e7eb;--muted:#93c5fd;--brand:#60a5fa;--accent:#34d399;--error:#f87171}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#020617);color:var(--ink);font:16px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    header{position:sticky;top:0;background:linear-gradient(180deg,#0f172acc,#0b1220cc);backdrop-filter:blur(8px);border-bottom:1px solid #1f2937;z-index:20}
+    .wrap{max-width:1050px;margin-inline:auto;padding:16px}
+    h1{margin:0;font-size:clamp(20px,3vw,28px)}
+    .sub{color:var(--muted)}
+    section{background:var(--card);border:1px solid #1f2937;border-radius:16px;padding:18px;margin:18px 0}
+    h2{margin:.2rem 0 1rem;font-size:clamp(18px,2.2vw,24px);color:#bfdbfe}
+    .q{border:1px solid #1f2937;border-radius:12px;padding:14px;margin:12px 0;background:#0b1220}
+    .q h3{margin:.2rem 0 .6rem;font-size:16px}
+    .choices{display:grid;gap:8px;margin:.5rem 0}
+    .choices label{display:flex;gap:10px;align-items:flex-start;background:#0b1524;border:1px solid #1f2937;border-radius:10px;padding:10px;cursor:pointer}
+    .choices input{margin-top:3px}
+    code, pre{background:#0b1524;border:1px solid #1f2937;padding:.2rem .4rem;border-radius:6px}
+    pre{padding:12px;overflow:auto}
+    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+    .btn{border:1px solid #1f2937;background:#0b1524;color:var(--ink);padding:8px 12px;border-radius:10px;cursor:pointer}
+    .btn:hover{border-color:#374151}
+    .reveal{margin-left:auto}
+    .ans{display:none;margin-top:8px;border-top:1px dashed #334155;padding-top:8px}
+    .right{color:var(--accent)}
+    .wrong{color:var(--error)}
+    .muted{color:#9ca3af}
+    .scorebar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .pill{padding:6px 10px;border-radius:999px;border:1px solid #334155;background:#0b1524}
+    footer{color:#94a3b8;text-align:center;padding:24px}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    textarea{width:100%;min-height:130px;background:#0b1524;color:var(--ink);border:1px solid #1f2937;border-radius:10px;padding:10px}
+    input[type="text"]{width:100%;background:#0b1524;color:var(--ink);border:1px solid #1f2937;border-radius:10px;padding:10px}
+    .badge{font-size:12px;color:#93c5fd}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>JavaScript — Arrays (Day 3) Interactive Exam <span class="sub">(30 MCQs · 20 Output · 5 Code)</span></h1>
+      <div class="scorebar" id="scorebar">
+        <span class="pill">MCQs: <b id="mScore">0</b>/<span id="mTotal">0</span></span>
+        <span class="pill">Output: <b id="oScore">0</b>/<span id="oTotal">0</span></span>
+        <span class="pill">Code: <b id="cScore">0</b>/<span id="cTotal">0</span></span>
+        <span class="pill">Overall: <b id="tScore">0</b>/<span id="tTotal">0</span></span>
+        <button class="btn" id="submitAll">Submit All</button>
+        <button class="btn" id="resetAll">Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="mcq">
+      <h2>1) Multiple‑Choice Questions (30)</h2>
+      <div id="mcqWrap"></div>
+    </section>
+
+    <section id="output">
+      <h2>2) What’s the Output? (20)</h2>
+      <p class="muted">Type the exact output as it would appear in the console. Whitespace is normalized.</p>
+      <div id="outWrap"></div>
+    </section>
+
+    <section id="code">
+      <h2>3) Code Writing (5)</h2>
+      <p class="muted">Write each function exactly as specified. On submit, your code runs against tests. You can reveal a sample solution if you’re stuck.</p>
+      <div id="codeWrap"></div>
+    </section>
+  </main>
+
+  <footer>
+    Focus: Arrays (creation, length, indexing, push/pop/shift/unshift, slice vs splice, indexOf/lastIndexOf/includes, concat, reverse, join, map/filter/some/every/find/findIndex, sort, forEach), multi‑dimensional arrays, and a bit of <code>eval</code> for expression evaluation.
+  </footer>
+
+<script>
+(() => {
+  'use strict';
+
+  // ---------- Data: MCQs ----------
+  const MCQS = [
+    {q:`Which statement about JavaScript arrays is true?`, c:[`They must hold one type only`,`They are fixed size`,`They can hold mixed types and grow dynamically`,`They start indexing at 1`], a:2, e:`Arrays are dynamic and can contain values of any type.`},
+    {q:`What does <code>push()</code> return?`, c:[`The pushed element`,`The new length`,`The old length`,`undefined`], a:1, e:`push returns the new array length.`},
+    {q:`What does <code>pop()</code> return?`, c:[`The removed last element`,`The new length`,`undefined`,`The first element`], a:0, e:`pop removes and returns the last element.`},
+    {q:`What does <code>shift()</code> return?`, c:[`The removed first element`,`The new length`,`undefined`,`The last element`], a:0, e:`shift removes and returns the first element.`},
+    {q:`What does <code>unshift()</code> return?`, c:[`The new length`,`The first element`,`undefined`,`The last element`], a:0, e:`unshift returns the new array length.`},
+    {q:`<code>slice()</code> vs <code>splice()</code>: which is correct?`, c:[`Both mutate the array`,`slice mutates; splice copies`,`slice copies; splice mutates`,`Neither can change array length`], a:2, e:`slice returns a copy; splice changes the array (and returns removed items).`},
+    {q:`<code>indexOf('x')</code> on an array with no 'x' returns`, c:[`null`,`-1`,`undefined`,`0`], a:1, e:`-1 is the “not found” sentinel.`},
+    {q:`<code>includes(8)</code> returns`, c:[`index`,`boolean`,`string`,`object`], a:1, e:`includes returns a boolean.`},
+    {q:`<code>concat()</code>`, c:[`Mutates the array`,`Returns a new array`,`Returns a string`,`Always flattens nested arrays`], a:1, e:`concat returns a new array, leaving the inputs unchanged.`},
+    {q:`<code>reverse()</code>`, c:[`Returns a new reversed array`,`Mutates the array in place`,`Sorts descending only`,`Throws on empty arrays`], a:1, e:`reverse is in‑place.`},
+    {q:`Default separator for <code>join()</code> is`, c:[`space`,`comma`,"semicolon","empty string"], a:1, e:`join() uses "," if none specified.`},
+    {q:`<code>new Array(4).join('-')</code> evaluates to`, c:[`'-'`,`'' (empty string)`,`'---'`,`'----'`], a:2, e:`Array of length 4 has 3 separators between empty slots → '---'.`},
+    {q:`<code>sort()</code> without a comparator sorts`, c:[`Numerically`,`By UTF‑16 code unit (lexicographic)`,`Randomly`,`Stable numeric`], a:1, e:`Without comparator it sorts as strings.`},
+    {q:`To sort numbers ascending you should`, c:[`arr.sort()`,`arr.sort((a,b)=>a-b)`,`arr.sort((a,b)=>b-a)`,`arr.sort('asc')`], a:1, e:`Comparator must return negative/zero/positive.`},
+    {q:`Return value of <code>[1,2,3].map(x=>x*2)</code>`, c:[`[2,4,6]`,`undefined`,`[1,2,3]`,`[1,4,9]`], a:0, e:`map returns a new transformed array.`},
+    {q:`Return value of <code>forEach()</code>`, c:[`The mapped array`,`The last callback result`,`undefined`,`A boolean`], a:2, e:`forEach always returns undefined.`},
+    {q:`<code>filter()</code>`, c:[`Transforms each element`,`Returns a subset matching a predicate`,`Returns first match`,`Mutates the array`], a:1, e:`filter selects matching elements into a new array.`},
+    {q:`<code>some()</code> returns true when`, c:[`All elements match`,`Any element matches`,`Array is non‑empty`,`No elements match`], a:1, e:`some stops on the first truthy predicate.`},
+    {q:`<code>every()</code> returns true when`, c:[`All elements match`,`Any element matches`,`Array is empty only`,`No elements match`], a:0, e:`every stops on the first falsy predicate.`},
+    {q:`<code>find()</code> returns`, c:[`The first matching value or undefined`,`An index or −1`,`A boolean`,`All matches`], a:0, e:`find gives the value; findIndex gives the index.`},
+    {q:`<code>findIndex()</code> returns`, c:[`A value or undefined`,`The index or −1`,`A sorted copy`,`A boolean`], a:1, e:`-1 when not found.`},
+    {q:`Effect of <code>delete arr[1]</code>`, c:[`Removes and shifts elements`,`Leaves a hole; length unchanged`,`Sets length = 1`,`Throws`], a:1, e:`Deletes the property, creating a sparse slot.`},
+    {q:`The operator <code>1 in arr</code> checks`, c:[`Whether value 1 exists`,`Whether index '1' exists`,`Array length`,`If arr is numeric`], a:1, e:`Checks if key '1' is present, not the value.`},
+    {q:`<code>arr.at(-1)</code>`, c:[`Throws`,`Returns the first element`,`Returns the last element`,`Returns a copy`], a:2, e:`Negative index counts from the end.`},
+    {q:`<code>eval('3+2')</code>`, c:[`Parses JSON`,`Evaluates a string of JS and returns 5`,`Always throws`,`Is recommended for all math`], a:1, e:`It evaluates JavaScript; use with care.`},
+    {q:`Safer alternative for parsing JSON strings is`, c:[`eval`,`Function`,`JSON.parse`,`document.write`], a:2, e:`Use JSON.parse instead of eval for JSON.`},
+    {q:`<code>typeof []</code> yields`, c:[`'array'`,`'object'`,`'list'`,`'function'`], a:1, e:`Arrays are objects; use Array.isArray to test.`},
+    {q:`Setting <code>arr.length = 0</code>`, c:[`Does nothing`,`Clears the array`,`Throws`,`Sets first element to 0`], a:1, e:`Resets to empty array.`},
+    {q:`Multi‑dimensional arrays in JS are`, c:[`Native matrix type`,`Objects of objects`,`Arrays of arrays`,`Not possible`], a:2, e:`Use arrays of arrays.`},
+    {q:`<code>join('')</code> on <code>[1,2,3]</code> returns`, c:[`'1,2,3'`,`'123'`,`[1,2,3]`,`'1 2 3'`], a:1, e:`Empty separator concatenates elements.`}
+  ];
+
+  // ---------- Data: Output Questions ----------
+  const OUTPUTS = [
+    {q:`What is printed?\n\n<pre>console.log([8,9,7,6].lastIndexOf('I'));</pre>`, a:`-1`, e:`'I' is not found.`},
+    {q:`What is printed?\n\n<pre>console.log([8,9,7,6].includes('f'));</pre>`, a:`false`, e:`'f' is not in the array.`},
+    {q:`What is printed?\n\n<pre>console.log([8,9,7,6].includes(8));</pre>`, a:`true`, e:`8 is present.`},
+    {q:`What is printed?\n\n<pre>console.log([8,9,7,6].concat(80,90,70));</pre>`, a:`8,9,7,6,80,90,70`, e:`Arrays log as comma‑joined.`},
+    {q:`What is printed?\n\n<pre>console.log([8,9,7,6].slice().reverse());</pre>`, a:`6,7,9,8`, e:`Reversed copy; console shows as comma‑list.`},
+    {q:`What is printed?\n\n<pre>console.log([8,9,7,6].at(4));</pre>`, a:`undefined`, e:`Index 4 is out of range.`},
+    {q:`What is printed?\n\n<pre>console.log([8,9,7,6].join());</pre>`, a:`8,9,7,6`, e:`Default join is comma.`},
+    {q:`What is printed?\n\n<pre>console.log([8,9,7,6].join('*'));</pre>`, a:`8*9*7*6`, e:`'*' used between elements.`},
+    {q:`What is printed?\n\n<pre>console.log([8,9,7,6].join('+'));</pre>`, a:`8+9+7+6`, e:`'+' between elements.`},
+    {q:`What is printed?\n\n<pre>const a=[8,9,7,6];\nconsole.log(eval(a.join('+')));</pre>`, a:`30`, e:`8+9+7+6 = 30.`},
+    {q:`What is printed?\n\n<pre>let sum=0;\nfor (const i in [8,9,7,6]) sum += [8,9,7,6][i];\nconsole.log('SumRes:', sum);</pre>`, a:`SumRes: 30`, e:`for..in visits indices as strings.`},
+    {q:`What is printed?\n\n<pre>console.log([80,1,70,6,0,2,9].sort());</pre>`, a:`0,1,2,6,70,80,9`, e:`Lexicographic sort.`},
+    {q:`What is printed?\n\n<pre>console.log([80,1,70,6,0,2,9].sort((a,b)=>a-b));</pre>`, a:`0,1,2,6,9,70,80`, e:`Numeric ascending.`},
+    {q:`What is printed?\n\n<pre>console.log([80,1,70,6,0,2,9].map(x=>x*5));</pre>`, a:`400,5,350,30,0,10,45`, e:`map multiplies each by 5.`},
+    {q:`What is printed?\n\n<pre>const N=[80,1,70,6,0,2,9]; N.push(10000);\nconsole.log(N);</pre>`, a:`80,1,70,6,0,2,9,10000`, e:`push appends value.`},
+    {q:`What is printed?\n\n<pre>const a=[1,2,3]; a.length=1;\nconsole.log(a);</pre>`, a:`1`, e:`Truncates to first element.`},
+    {q:`What is printed?\n\n<pre>const a=[1,2,3]; delete a[1];\nconsole.log(a.length);</pre>`, a:`3`, e:`delete leaves length unchanged.`},
+    {q:`What is printed?\n\n<pre>const a=[1,2,3]; delete a[1];\nconsole.log(1 in a);</pre>`, a:`false`, e:`Property '1' no longer exists.`},
+    {q:`What is printed?\n\n<pre>console.log(['eman','yasser','ali'].sort((a,b)=>a.localeCompare(b)));</pre>`, a:`ali,eman,yasser`, e:`Case‑sensitive localeCompare on lowercase.`},
+    {q:`What is printed?\n\n<pre>console.log([12,5,8,130,44].filter(v=>v>=10));</pre>`, a:`12,130,44`, e:`filter keeps >= 10.`}
+  ];
+
+  // ---------- Data: Code Tasks ----------
+  const CODE = [
+    {
+      title:`1) uniqueWithRepeatRows(values)`,
+      prompt:`Given an array of primitive values, return an object { unique, repeats } where <code>unique</code> is the array with duplicates removed (preserve first occurrences), and <code>repeats</code> is an array of <b>1‑based row numbers</b> for all repeated occurrences (like the screenshot).`,
+      fn:`uniqueWithRepeatRows`,
+      tests:[
+        {args:[[1,2,3,1,3]], expect:{unique:[1,2,3], repeats:[4,5]}},
+        {args:[[10,10,10]], expect:{unique:[10], repeats:[2,3]}}
+      ],
+      solution:`function uniqueWithRepeatRows(values){\n  var seen = Object.create(null);\n  var unique = [];\n  var repeats = [];\n  for(var i=0;i<values.length;i++){\n    var v = values[i];\n    if(seen[v]){ repeats.push(i+1); }\n    else { seen[v] = true; unique.push(v); }\n  }\n  return {unique:unique, repeats:repeats};\n}`
+    },
+    {
+      title:`2) bottleGame(names)`,
+      prompt:`Given an array of names, return two <b>distinct</b> random names as <code>[name1, name2]</code>. If the array has fewer than 2 distinct names, return an empty array.`,
+      fn:`bottleGame`,
+      tests:[
+        {args:[["ahmed","islam","sandra","Fatma","Ali"]], expectCheck:(out, inp)=>Array.isArray(out)&&out.length===2&& new Set(out).size===2 && out.every(n=>inp.indexOf(n)>-1)},
+        {args:[["Ali","Ali"]], expect:[]}
+      ],
+      solution:`function bottleGame(names){\n  var pool = [];\n  for(var i=0;i<names.length;i++){ if(pool.indexOf(names[i])===-1) pool.push(names[i]); }\n  if(pool.length<2) return [];\n  var i1 = Math.floor(Math.random()*pool.length);\n  var i2 = i1;\n  while(i2===i1){ i2 = Math.floor(Math.random()*pool.length); }\n  return [pool[i1], pool[i2]];\n}`
+    },
+    {
+      title:`3) columnSums(matrix)`,
+      prompt:`Given a 2‑D numeric array (rows × cols), return an array of column sums. Example: [[1,2,3],[4,5,6]] → [5,7,9].`,
+      fn:`columnSums`,
+      tests:[
+        {args:[[[1,2,3],[4,5,6]]], expect:[5,7,9]},
+        {args:[[[1,2],[3,4],[5,6]]], expect:[9,12]}
+      ],
+      solution:`function columnSums(matrix){\n  if(!matrix.length) return [];\n  var cols = matrix[0].length;\n  var sums = [];\n  for(var c=0;c<cols;c++){ sums[c]=0; }\n  for(var r=0;r<matrix.length;r++){\n    for(var c=0;c<cols;c++){ sums[c]+= Number(matrix[r][c])||0; }\n  }\n  return sums;\n}`
+    },
+    {
+      title:`4) sumAndProductUsingEval(nums)`,
+      prompt:`Return an object <code>{sum, product}</code> for an array of numbers. Compute <code>sum</code> using <code>eval</code> on a joined expression like <code>"1+2+3"</code>.`,
+      fn:`sumAndProductUsingEval`,
+      tests:[
+        {args:[[4,8,1]], expect:{sum:13, product:32}},
+        {args:[[2,3,5]], expect:{sum:10, product:30}}
+      ],
+      solution:`function sumAndProductUsingEval(nums){\n  if(!nums.length) return {sum:0, product:0};\n  var expr = String(nums[0]);\n  for(var i=1;i<nums.length;i++){ expr += '+' + String(nums[i]); }\n  var sum = eval(expr);\n  var prod = 1;\n  for(var j=0;j<nums.length;j++){ prod *= Number(nums[j])||0; }\n  return {sum:sum, product:prod};\n}`
+    },
+    {
+      title:`5) statsAndSort(nums)`,
+      prompt:`Given an array of numbers, return <code>{min, max, asc, desc, gt50}</code> where <code>asc</code>/<code>desc</code> are sorted copies (numeric), and <code>gt50</code> is numbers &gt; 50 using <code>filter</code>.`,
+      fn:`statsAndSort`,
+      tests:[
+        {args:[[80,1,70,6,0,2,9]], expect:{min:0,max:80,asc:[0,1,2,6,9,70,80],desc:[80,70,9,6,2,1,0],gt50:[80,70]}},
+        {args:[[51,50,49]], expect:{min:49,max:51,asc:[49,50,51],desc:[51,50,49],gt50:[51]}}
+      ],
+      solution:`function statsAndSort(nums){\n  var arr = nums.slice();\n  var asc = arr.slice().sort(function(a,b){return a-b;});\n  var desc = arr.slice().sort(function(a,b){return b-a;});\n  var min = asc.length? asc[0] : undefined;\n  var max = asc.length? asc[asc.length-1] : undefined;\n  var gt50 = arr.filter(function(v){ return v>50; });\n  return {min:min,max:max,asc:asc,desc:desc,gt50:gt50};\n}`
+    }
+  ];
+
+  // ---------- Renderers ----------
+  const mcqWrap = document.getElementById('mcqWrap');
+  const outWrap = document.getElementById('outWrap');
+  const codeWrap = document.getElementById('codeWrap');
+
+  document.getElementById('mTotal').textContent = MCQS.length;
+  document.getElementById('oTotal').textContent = OUTPUTS.length;
+  document.getElementById('cTotal').textContent = CODE.length;
+  document.getElementById('tTotal').textContent = MCQS.length + OUTPUTS.length + CODE.length;
+
+  function el(tag, opts){
+    opts = opts||{};
+    const e = document.createElement(tag);
+    if(opts.class) e.className = opts.class;
+    if(opts.html!=null) e.innerHTML = opts.html;
+    if(opts.text!=null) e.textContent = opts.text;
+    if(opts.attrs) for(const k in opts.attrs){ e.setAttribute(k, opts.attrs[k]); }
+    return e;
+  }
+
+  function renderMCQ(){
+    MCQS.forEach((q,idx)=>{
+      const box = el('div',{class:'q'});
+      box.dataset.kind = 'mcq';
+      box.dataset.index = String(idx);
+      const title = el('h3',{html:`Q${idx+1}. ${q.q}`});
+      box.appendChild(title);
+      const list = el('div',{class:'choices'});
+      q.c.forEach((opt,i)=>{
+        const id = `m_${idx}_${i}`;
+        const lab = el('label');
+        const inp = el('input',{attrs:{type:'radio',name:`mcq_${idx}`,id}});
+        lab.appendChild(inp);
+        lab.appendChild(el('span',{html:opt}));
+        list.appendChild(lab);
+      });
+      box.appendChild(list);
+      const row = el('div',{class:'row'});
+      const reveal = el('button',{class:'btn reveal',text:'Reveal Answer'});
+      row.appendChild(reveal);
+      box.appendChild(row);
+      const ans = el('div',{class:'ans',html:`<div><span class="badge">Correct:</span> <b>${String.fromCharCode(65+q.a)}</b> — ${q.c[q.a]}</div><div class="muted">${q.e||''}</div>`});
+      reveal.addEventListener('click',()=>{ ans.style.display = ans.style.display==='block'?'none':'block'; });
+      box.appendChild(ans);
+      mcqWrap.appendChild(box);
+    });
+  }
+
+  function renderOutput(){
+    OUTPUTS.forEach((q,idx)=>{
+      const box = el('div',{class:'q'});
+      box.dataset.kind = 'out';
+      box.dataset.index = String(idx);
+      const title = el('h3',{html:`Q${idx+1}. ${q.q}`});
+      box.appendChild(title);
+      const input = el('input',{attrs:{type:'text',placeholder:'Type exact output...'}});
+      box.appendChild(input);
+      const row = el('div',{class:'row'});
+      const reveal = el('button',{class:'btn reveal',text:'Reveal Answer'});
+      row.appendChild(reveal);
+      box.appendChild(row);
+      const ans = el('div',{class:'ans',html:`<div><span class="badge">Expected:</span> <b class="mono">${q.a}</b></div><div class="muted">${q.e||''}</div>`});
+      reveal.addEventListener('click',()=>{ ans.style.display = ans.style.display==='block'?'none':'block'; });
+      box.appendChild(ans);
+      outWrap.appendChild(box);
+    });
+  }
+
+  function renderCode(){
+    CODE.forEach((t,idx)=>{
+      const box = el('div',{class:'q'});
+      box.dataset.kind = 'code';
+      box.dataset.index = String(idx);
+      const title = el('h3',{html:`Q${idx+1}. ${t.title}`});
+      box.appendChild(title);
+      const p = el('div',{class:'muted',html:t.prompt});
+      box.appendChild(p);
+      const ta = el('textarea');
+      ta.placeholder = `// write your function here\nfunction ${t.fn}(){\n  // ...\n}`;
+      box.appendChild(ta);
+      const row = el('div',{class:'row'});
+      const runBtn = el('button',{class:'btn',text:'Run Tests (this question)'});
+      const reveal = el('button',{class:'btn reveal',text:'Reveal Sample Solution'});
+      row.appendChild(runBtn);
+      row.appendChild(reveal);
+      box.appendChild(row);
+      const output = el('div',{class:'ans'});
+      box.appendChild(output);
+      reveal.addEventListener('click',()=>{
+        output.style.display = output.style.display==='block'?'none':'block';
+        output.innerHTML = `<div><span class="badge">Sample Solution:</span></div><pre class="mono">${escapeHtml(t.solution)}</pre>`;
+      });
+      runBtn.addEventListener('click',()=>{
+        const res = gradeSingleCode(t, ta.value);
+        output.style.display = 'block';
+        const passed = res.passedTests; const total = res.totalTests;
+        output.innerHTML = `<div><span class="badge">Tests:</span> ${passed}/${total} ${passed===total?'<span class="right">✓ Passed</span>':'<span class="wrong">✗ Some failed</span>'}</div>` +
+          `<pre class="mono">${escapeHtml(res.log)}</pre>`;
+      });
+      codeWrap.appendChild(box);
+    });
+  }
+
+  renderMCQ();
+  renderOutput();
+  renderCode();
+
+  // ---------- Grading & Utils ----------
+  function escapeHtml(s){
+    // regex-free small escaper
+    s = String(s);
+    let out = '';
+    for(let i=0;i<s.length;i++){
+      const ch = s[i];
+      if(ch==='&') out += '&amp;';
+      else if(ch==='<') out += '&lt;';
+      else if(ch==='>') out += '&gt;';
+      else out += ch;
+    }
+    return out;
+  }
+  function norm(s){
+    // Regex-free normalization using character codes
+    s = String(s);
+    const CR = String.fromCharCode(13);
+    const TAB = String.fromCharCode(9);
+    const NL = String.fromCharCode(10);
+    s = s.split(CR).join('');
+    s = s.split(TAB).join(' ');
+    while(s.indexOf('  ')!==-1) s = s.replace('  ',' ');
+    while(s.indexOf(NL+NL)!==-1) s = s.replace(NL+NL, NL);
+    return s.trim();
+  }
+
+  function gradeAll(){
+    let mScore=0, oScore=0, cScore=0;
+
+    // MCQs
+    mcqWrap.querySelectorAll('.q').forEach((box)=>{
+      const idx = Number(box.dataset.index);
+      const sel = box.querySelector('input[type=radio]:checked');
+      if(sel){
+        const picked = Number(sel.id.split('_').pop());
+        if(picked === MCQS[idx].a){ mScore++; mark(box,true); }
+        else { mark(box,false,`Correct: ${String.fromCharCode(65+MCQS[idx].a)}`); }
+      } else { mark(box,false,'No answer'); }
+    });
+
+    // Outputs
+    outWrap.querySelectorAll('.q').forEach((box)=>{
+      const idx = Number(box.dataset.index);
+      const input = box.querySelector('input');
+      const ok = norm(input.value) === norm(OUTPUTS[idx].a);
+      if(ok) { oScore++; mark(box,true); }
+      else { mark(box,false,`Expected: ${OUTPUTS[idx].a}`); }
+    });
+
+    // Code (count question as correct only if all tests pass)
+    codeWrap.querySelectorAll('.q').forEach((box)=>{
+      const idx = Number(box.dataset.index);
+      const ta = box.querySelector('textarea');
+      const res = gradeSingleCode(CODE[idx], ta.value);
+      const ok = res.passedTests === res.totalTests && res.totalTests>0;
+      if(ok){ cScore++; mark(box,true); }
+      else { mark(box,false, `${res.passedTests}/${res.totalTests} tests passed`); }
+    });
+
+    const tScore = mScore + oScore + cScore;
+    document.getElementById('mScore').textContent = mScore;
+    document.getElementById('oScore').textContent = oScore;
+    document.getElementById('cScore').textContent = cScore;
+    document.getElementById('tScore').textContent = tScore;
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function mark(box, ok, note){
+    box.style.outline = `2px solid ${ok? 'var(--accent)':'var(--error)'}`;
+    if(note){
+      let inf = box.querySelector('.infoNote');
+      if(!inf){ inf = el('div',{class:'muted infoNote'}); box.appendChild(inf); }
+      inf.innerHTML = ok ? `<span class="right">✓ Correct</span>` : `<span class="wrong">✗ ${escapeHtml(note)}` + `</span>`;
+    }
+  }
+
+  function resetAll(){
+    document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+    document.querySelectorAll('#outWrap input[type=text]').forEach(i=>i.value='');
+    document.querySelectorAll('#codeWrap textarea').forEach(t=>t.value='');
+    document.querySelectorAll('.q').forEach(q=>{ q.style.outline='none'; q.querySelectorAll('.infoNote').forEach(n=>n.remove()); q.querySelectorAll('.ans').forEach(a=>a.style.display='none'); });
+    document.getElementById('mScore').textContent='0';
+    document.getElementById('oScore').textContent='0';
+    document.getElementById('cScore').textContent='0';
+    document.getElementById('tScore').textContent='0';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function gradeSingleCode(task, userCode){
+    const log = [];
+    let passed = 0; let total = task.tests.length;
+
+    // Build the function from user code
+    const header = `'use strict';`;
+    const body = `${userCode}\n;return (typeof ${task.fn} === 'function') ? ${task.fn} : undefined;`;
+    let fn;
+    try{ fn = (new Function(header + body))(); }
+    catch(e){ return {passedTests:0,totalTests:total,log:`Syntax/Runtime while defining function: ${e.message}`}; }
+    if(typeof fn !== 'function'){
+      return {passedTests:0,totalTests:total,log:`Function '${task.fn}' not found. Declare exactly: function ${task.fn}(...) { ... }`};
+    }
+
+    for(let i=0;i<task.tests.length;i++){
+      const t = task.tests[i];
+      try{
+        let ok, out;
+        if(typeof t.expectCheck === 'function'){
+          out = fn.apply(null, t.args);
+          ok = !!t.expectCheck(out, t.args[0]);
+          if(ok) passed++;
+          log.push(`Test ${i+1}: ${ok? '✓' : '✗'} ${ok? '' : 'Custom check failed'}`);
+        }else{
+          out = fn.apply(null, t.args);
+          ok = deepEqual(out, t.expect);
+          if(ok) { passed++; log.push(`Test ${i+1}: ✓`); }
+          else { log.push(`Test ${i+1}: ✗ Expected ${JSON.stringify(t.expect)} but got ${JSON.stringify(out)}`); }
+        }
+      }catch(e){ log.push(`Test ${i+1}: ✗ Error: ${e.message}`); }
+    }
+    const NL = String.fromCharCode(10);
+    return {passedTests:passed,totalTests:total,log:log.join(NL)};
+  }
+
+  function deepEqual(a,b){
+    if(a===b) return true;
+    if(Array.isArray(a) && Array.isArray(b)){
+      if(a.length!==b.length) return false;
+      for(let i=0;i<a.length;i++) if(!deepEqual(a[i],b[i])) return false;
+      return true;
+    }
+    if(a && b && typeof a==='object' && typeof b==='object'){
+      const ka = Object.keys(a), kb = Object.keys(b);
+      if(ka.length!==kb.length) return false;
+      for(let k of ka) if(!deepEqual(a[k],b[k])) return false;
+      return true;
+    }
+    return false;
+  }
+
+  document.getElementById('submitAll').addEventListener('click', gradeAll);
+  document.getElementById('resetAll').addEventListener('click', resetAll);
+})();
+</script>
+</body>
+</html>
